@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -80,12 +84,28 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -193,11 +213,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\API\ParentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DTO\ParentDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -205,10 +229,48 @@
     <Compile Include="Migrations\201702172337587_initial.Designer.cs">
       <DependentUpon>201702172337587_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702272033554_ParentStudent.cs" />
+    <Compile Include="Migrations\201702272033554_ParentStudent.Designer.cs">
+      <DependentUpon>201702272033554_ParentStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702272059588_ParentStudentDDL.cs" />
+    <Compile Include="Migrations\201702272059588_ParentStudentDDL.Designer.cs">
+      <DependentUpon>201702272059588_ParentStudentDDL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702272130228_ParentStudent1.cs" />
+    <Compile Include="Migrations\201702272130228_ParentStudent1.Designer.cs">
+      <DependentUpon>201702272130228_ParentStudent1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702272139181_AddState.cs" />
+    <Compile Include="Migrations\201702272139181_AddState.Designer.cs">
+      <DependentUpon>201702272139181_AddState.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702272142398_AddStateAbbr.cs" />
+    <Compile Include="Migrations\201702272142398_AddStateAbbr.Designer.cs">
+      <DependentUpon>201702272142398_AddStateAbbr.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702272143448_AddStateData.cs" />
+    <Compile Include="Migrations\201702272143448_AddStateData.Designer.cs">
+      <DependentUpon>201702272143448_AddStateData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703212115555_UpdateParentTable.cs" />
+    <Compile Include="Migrations\201703212115555_UpdateParentTable.Designer.cs">
+      <DependentUpon>201703212115555_UpdateParentTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703221421266_sampleparent.cs" />
+    <Compile Include="Migrations\201703221421266_sampleparent.Designer.cs">
+      <DependentUpon>201703221421266_sampleparent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703221451464_fixParentStructure.cs" />
+    <Compile Include="Migrations\201703221451464_fixParentStructure.Designer.cs">
+      <DependentUpon>201703221451464_fixParentStructure.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Parent.cs" />
+    <Compile Include="Models\State.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -288,6 +350,33 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702172337587_initial.resx">
       <DependentUpon>201702172337587_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702272033554_ParentStudent.resx">
+      <DependentUpon>201702272033554_ParentStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702272059588_ParentStudentDDL.resx">
+      <DependentUpon>201702272059588_ParentStudentDDL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702272130228_ParentStudent1.resx">
+      <DependentUpon>201702272130228_ParentStudent1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702272139181_AddState.resx">
+      <DependentUpon>201702272139181_AddState.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702272142398_AddStateAbbr.resx">
+      <DependentUpon>201702272142398_AddStateAbbr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702272143448_AddStateData.resx">
+      <DependentUpon>201702272143448_AddStateData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703212115555_UpdateParentTable.resx">
+      <DependentUpon>201703212115555_UpdateParentTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703221421266_sampleparent.resx">
+      <DependentUpon>201703221421266_sampleparent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703221451464_fixParentStructure.resx">
+      <DependentUpon>201703221451464_fixParentStructure.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

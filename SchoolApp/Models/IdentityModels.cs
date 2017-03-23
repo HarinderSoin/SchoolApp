@@ -20,6 +20,10 @@ namespace SchoolApp.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Parent> Parents { get; set; }
+        public DbSet<State> States { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
