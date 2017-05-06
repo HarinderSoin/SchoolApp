@@ -44,5 +44,7 @@ namespace SchoolApp.DTO
         public bool Parent1WillTeach { get; set; }
         public bool Parent2WillVolunteer { get; set; }
         public bool Parent2WillTeach { get; set; }
+
+        public string UserId { get; set; }
     }
 }

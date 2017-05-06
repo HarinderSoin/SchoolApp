@@ -9,7 +9,8 @@ namespace SchoolApp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(SchoolApp.Models.ApplicationDbContext context)

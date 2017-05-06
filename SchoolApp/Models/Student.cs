@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Security.AccessControl;
 using System.Web;
 
 namespace SchoolApp.Models
@@ -19,17 +19,19 @@ namespace SchoolApp.Models
         [Required]
         public string LastName { get; set; }
 
-        [Required]
         public DateTime DateOfBirth { get; set; }
 
-        [EmailAddress]
         public string Email { get; set; }
 
-        [Phone]
         public string MobileNo { get; set; }
 
-        public Parent parent { get; set; }
+        public Parent Parent { get; set; }
 
-        public byte ParentID  { get; set; }
+        public int ParentID { get; set; }
+
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
+
     }
 }

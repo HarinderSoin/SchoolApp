@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "RegisterParents";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Register Family</h2>
+
+<style>
+    hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+    }
+</style>
+
+<form id="ParentEntry" method="post" action="/api/parent">
+    <div class="row">
+        <div class="col-xs-3">
+            Parent 1 First Name <br />
+            <input type="text" name="parent1Name" size="20" class="form-control">
+        </div>
+
+        <div class="col-xs-3">
+            Parent 1 Last Name <br />
+            <input type="text" name="parent1LastName"  size="20"  class="form-control">
+        </div>
+
+    </div>
+    <br>
+    
+    <div class="row">
+        
+        <div class="col-xs-3">
+            Parent 1 Email Address <br />
+            <input type="text" name="email1" size="30" class="form-control">
+        </div>
+    </div>
+    <br>
+    
+    <div class="row">
+        <div class="col-xs-3">
+            Parent 1 Mobile <br />
+            <input type="text" name="mobile1" size="15" class="form-control">
+        </div>
+    </div>
+    <br>
+    
+    <hr/>
+    <div class="row">
+        <div class="col-xs-3">
+            Parent 2 First Name <br />
+            <input type="text" name="parent2Name" size="20" class="form-control">
+        </div>
+
+        <div class="col-xs-3">
+            Parent 2 Last Name <br />
+            <input type="text" name="parent2LastName" size="20" class="form-control">
+        </div>
+
+    </div>
+    <br>
+    
+    <div class="row">
+
+        <div class="col-xs-3">
+            Parent 2 Email Address <br />
+            <input type="text" name="email2" size="30" class="form-control">
+        </div>
+    </div>
+    <br>
+    
+    <div class="row">
+
+        <div class="col-xs-3">
+            Parent 2 Mobile <br />
+            <input id="mobile2" type="tel" name="mobile2" size="15"  pattern ="\d{3}[\-]\d{3}[\-]\d{4}" class="form-control">
+        </div>
+    </div>
+    <br>
+    
+    <hr />
+
+    <div class="row">
+        <div class="col-xs-3">
+            Address <br />
+            <input type="text" name="address" class="form-control">
+        </div>
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-xs-3">
+            City <br />
+            <input type="text" name="city" class="form-control">
+        </div>
+        
+    </div>
+    <br>
+
+    <div class="row">
+        <div class="col-xs-3">
+            Select State <br />
+            <select id="selectState" class="dropdown form-control input-xs required" name="stateID"></select>
+        </div>
+    </div>
+    <br />
+    
+
+
+        <div class="row">
+            <div class="col-xs-3">
+                Zip <br />
+                <input type="text" name="zip" class="form-control">
+            </div>
+        </div>
+        <br>
+
+    <div class="row">
+        <div class="col-xs-3">
+            Home Phone <br />
+            <input type="text" name="homePhone" class="form-control">
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    </div>
+    <br/>
+
+    
+
+</form>
+@section scripts
+{
+
+    <script>
+
+
+        $(document).ready(function () {
+            //var userId = document.cookie;
+
+
+            $("#ParentEntry").submit(function (event) {
+                event.preventDefault();
+                var dat = $("#ParentEntry").serializeArray();
+                console.log(dat);
+                var actionURL = event.currentTarget.action;
+
+                $.ajax({
+                    url: actionURL,
+                    type: "post",
+                    data: dat
+                });
+                bootbox.confirm("Congratulations! Family has been registered! Do you want to register a student?",
+                    function(result) {
+                        if (result) {
+                            window.location = '@Url.Action("EnterStudent","Student")';
+                        }
+                    });
+            });
+
+            var select = $("#selectState");
+            $.ajax({
+                url: "/api/State",
+                type: "get",
+                success: function (data) {
+                    $.each(data,
+                        function (i,data) {
+                            select.append("<option value='" + data.id +"'>"+ data.stateAbbr +"</option>");
+                        });
+                }
+            });
+
+ 
+        });
+
+    </script>
+}

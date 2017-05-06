@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "ListStudentsbyParent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Select Student</h1>
+
+<table id="ListStudentsByParent" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th> Date of Birth </th>
+            <th>Parent(s) Name</th>
+            <th> Assessments</th>
+            <th>Attendance</th>
+            <th>Class Allocations</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function() {
+            var table = $("#ListStudentsByParent").DataTable(
+            {
+                ajax: {
+                    async: true,
+                    url: "api/student/getStudentsByParent",
+                    dataSrc: ""
+                },
+                columns:
+                [
+                    {
+                        data: "",
+                        render: function(firstName) {
+                            return firstName;;
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function(dateOfBirth) {
+                            return dateOfBirth;;
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function(parent1tName) {
+                            return parent1Name;;
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class='btn-link js-assessments' data-assessments =" +
+                                data +
+                                ">Assessments </button>";
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class='btn-link js-attendance' data-attendance =" +
+                                data +
+                                ">attendance </button>";
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class='btn-link js-classAllocation' data-classAllocation =" +
+                                data +
+                                ">Class Allocation </button>";
+                        }
+                    }
+                ]
+            });
+
+        })
+    </script>
+}

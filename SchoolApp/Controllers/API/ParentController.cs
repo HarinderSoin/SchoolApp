@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Data.Entity;
+using System.EnterpriseServices;
 using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using SchoolApp.DTO;
 using SchoolApp.Models;
 
@@ -15,9 +18,11 @@ namespace SchoolApp.Controllers.API
     {
         private ApplicationDbContext _context;
 
+
         public ParentController()
         {
             _context = new ApplicationDbContext();
+
         }
 
         [HttpPost]
@@ -26,12 +31,16 @@ namespace SchoolApp.Controllers.API
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            UserManager<ApplicationUser> userManager;
+            var userId = User.Identity.GetUserId();
+            parentDto.UserId =   User.Identity.GetUserId();
+           
             var parent = Mapper.Map<ParentDTO, Parent>(parentDto);
 
             _context.Parents.Add(parent);
             _context.SaveChanges();
             parentDto.ID = parent.ID;
-            return Created(new Uri(Request.RequestUri + "/" + parent.ID), parentDto);
+            return Created(new Uri(Request.RequestUri + "/" + parentDto.ID), parentDto);
         }
 
         [HttpGet]
@@ -68,6 +77,21 @@ namespace SchoolApp.Controllers.API
             _context.SaveChanges();
 
             return Ok();
+        }
+
+        [HttpPut]
+        public IHttpActionResult UpdateParent(int id, ParentDTO parentDto)
+        {
+
+            var parentInDB = _context.Parents.SingleOrDefault(c => c.ID == id);
+
+            if (parentInDB == null)
+                NotFound();
+
+            Mapper.Map(parentDto, parentInDB);
+            _context.SaveChanges();
+
+            return Ok(parentDto);
         }
     }
 }

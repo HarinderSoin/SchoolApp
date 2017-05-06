@@ -1,0 +1,172 @@
+﻿
+
+@{
+    ViewBag.Title = "Class Allocation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Class Allocations</h2>
+
+<form id="ClassAllocationEntry" method="post" action="/api/classAllocations">
+    
+    <div class="row">
+        <div class="col-xs-3">
+            Select Subject <br />
+            <select id="selectSubject" class="dropdown form-control input-xs required" name="ID"></select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            Select Grade <br />
+            <select id="selectGrades" class="dropdown form-control input-xs required" name="ID"></select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            Select Room <br />
+            <select id="selectRoom" class="dropdown form-control input-xs required" name="ID"></select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            Select Class Period <br />
+            <select id="selectClassPeriod" class="dropdown form-control input-xs required" name="ID"></select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-xs-3">
+            Select Year <br />
+            <select id="selectYear" class="dropdown form-control input-xs required" name="ID"></select>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="form-group">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">Create Class Assignment</button>
+        </div>
+    </div>
+
+   
+
+</form>
+@section scripts
+{
+
+    <script>
+        $(document).ready(function() {
+            $("#ClassAllocationEntry").submit(function(event) {
+                event.preventDefault();
+                var subjectID = (document).getElementById("selectSubject").value;
+                var gradeID = (document).getElementById("selectGrades").value;
+                var classPeriodID = (document).getElementById("selectClassPeriod").value;
+                var roomID = (document).getElementById("selectRoom").value;
+                var academicYearID = (document).getElementById("selectYear").value;
+                //               var dat = $("#ClassAllocationEntry").serializeArray();
+                console.log(subjectID, academicYearID);
+                var actionURL = event.currentTarget.action;
+
+                $.ajax({
+                    url: actionURL,
+                    type: "post",
+                    data: {
+                        subjectID: subjectID,
+                        roomID: roomID,
+                        classPeriodID: classPeriodID,
+                        gradeID: gradeID,
+                        academicYearID: academicYearID
+                    },
+                    success: function (data, status, xhr) {
+                        console.log('Code ' + xhr.status);
+                       if (xhr.status == '200') {
+                            bootbox.alert(data);
+                        } else {
+                           //bootbox.alert("Class Allocation has been captured!");
+                          window.location='@Url.Action("ListClassAllocations","ClassAllocation")';
+                           //SuccessCall(data);
+                        }
+                    }
+                });
+            });
+//Select Subjects
+            var selectSubject = $("#selectSubject");
+            $.ajax({
+                url: "/api/Subjects",
+                type: "get",
+                success: function(data) {
+                    $.each(data,
+                        function(i, data) {
+                            selectSubject.append("<option value='" + data.id + "'>" + data.name + "</option>");
+                        });
+                }
+            });
+//Select Grades
+            var selectGrades = $("#selectGrades");
+            $.ajax({
+                url: "/api/Grades",
+                type: "get",
+                success: function(data) {
+                    $.each(data,
+                        function(i, data) {
+                            selectGrades
+                                .append("<option value='" + data.id + "'>" + data.classDescription + "</option>");
+                        });
+                }
+            });
+//Select Rooms
+            var selectRoom = $("#selectRoom");
+            $.ajax({
+                url: "/api/Rooms",
+                type: "get",
+                success: function(data) {
+                    $.each(data,
+                        function(i, data) {
+                            selectRoom.append("<option value='" + data.id + "'>" + data.roomDescription + "</option>");
+                        });
+                }
+            });
+//Select Period
+            var selectClassPeriod = $("#selectClassPeriod");
+            $.ajax({
+                url: "/api/classperiods",
+                type: "get",
+                success: function(data) {
+                    $.each(data,
+                        function(i, data) {
+                            selectClassPeriod
+                                .append("<option value='" + data.id + "'>" + data.description + "</option>");
+                        });
+                }
+            });
+
+//Select Year
+            var selectYear = $("#selectYear");
+            $.ajax({
+                url: "/api/AcademicYears",
+                type: "get",
+                success: function(data) {
+                    $.each(data,
+                        function(i, data) {
+                            selectYear.append("<option value='" + data.id + "'>" + data.schoolYear + "</option>");
+                        });
+                }
+            });
+
+        });
+
+        function SuccessCall(data)
+        {
+            $.ajax({
+
+ 
+        });
+        }
+
+    </script>
+}
+
+

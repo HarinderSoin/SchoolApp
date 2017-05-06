@@ -21,8 +21,21 @@ namespace SchoolApp.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Student> Students { get; set; }
+        public DbSet<AcademicYear> AcademicYears { get; set; }
+        public DbSet<ClassAllocation> ClassAllocations { get; set; }
+
+        public DbSet<Room> Rooms { get; set; }
+
+        public DbSet<Grade> Grades { get; set; }
+
+        public DbSet<ClassPeriod> ClassPeriods { get; set; }
+
+        public DbSet<Subject> Subjects { get; set; }
+
         public DbSet<Parent> Parents { get; set; }
         public DbSet<State> States { get; set; }
+        public DbSet<StudentUser> StudentUsers { get; set; }
+       
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
