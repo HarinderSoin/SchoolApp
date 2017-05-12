@@ -29,33 +29,33 @@
             {
                 ajax: {
                     async: true,
-                    url: "api/student/getStudentsByParent",
+                    url: "/api/student/getStudentsByParent",
                     dataSrc: ""
                 },
                 columns:
                 [
                     {
-                        data: "",
-                        render: function(firstName) {
-                            return firstName;;
+                        data: "studentName",
+                        render: function (studentName) {
+                            return studentName;;
                         }
                     },
                     {
-                        data: "",
-                        render: function(dateOfBirth) {
-                            return dateOfBirth;;
+                        data: "studentDOB",
+                        render: function (studentDOB) {
+                            return studentDOB;;
                         }
                     },
                     {
-                        data: "",
-                        render: function(parent1tName) {
-                            return parent1Name;;
+                        data: "parentsName",
+                        render: function (parentsName) {
+                            return parentsName;;
                         }
                     },
                     {
                         data: "id",
                         render: function(data) {
-                            return "<button class='btn-link js-assessments' data-assessments =" +
+                            return "<button class='btn-link js-assessments' data-student-id =" +
                                 data +
                                 ">Assessments </button>";
                         }
@@ -63,15 +63,15 @@
                     {
                         data: "id",
                         render: function(data) {
-                            return "<button class='btn-link js-attendance' data-attendance =" +
+                            return "<button class='btn-link js-attendance' data-student-id =" +
                                 data +
-                                ">attendance </button>";
+                                ">Attendance </button>";
                         }
                     },
                     {
                         data: "id",
                         render: function(data) {
-                            return "<button class='btn-link js-classAllocation' data-classAllocation =" +
+                            return "<button class='btn-link js-classAllocation' data-student-id =" +
                                 data +
                                 ">Class Allocation </button>";
                         }
@@ -80,5 +80,16 @@
             });
 
         })
-    </script>
+
+        //Assessment Button
+        $("#ListStudentsByParent").on("click",
+            ".js-assessments",
+            function () {
+                var button = $(this);
+                var location = "/studentdetail/studentAssessmentByParent/" +
+                    button.attr("data-student-id") ;
+                window.location= location;
+
+            });
+</script>
 }

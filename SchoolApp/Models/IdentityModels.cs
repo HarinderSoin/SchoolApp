@@ -35,8 +35,28 @@ namespace SchoolApp.Models
         public DbSet<Parent> Parents { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<StudentUser> StudentUsers { get; set; }
-       
 
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<TeacherAssignment> TeachersAssignments { get; set; }
+
+        public DbSet<StudentAssignment> StudentAssignments { get; set; }
+        public DbSet<StudentAssessment> StudentAssessments { get; set; }
+        public DbSet<AssessmentGrades> AssessmentGrades { get; set; }
+
+        /*
+        public DbSet<TeacherNote> TeachersNotes{ get; set; }
+        */
+        /*
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TeacherNote>()
+                        .HasRequired(t => t.Teacher)
+                        .WithMany()
+                        .WillCascadeOnDelete(true);
+
+            base.OnModelCreating(modelBuilder);
+        }
+        */
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

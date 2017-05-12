@@ -1,0 +1,84 @@
+﻿@using System.Web.UI.WebControls
+
+@{
+    ViewBag.Title = "StudentAssessmentByParent";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h2>Student Assessment</h2>
+
+<table id="StudentAssessmentByParent" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Academic Year</th>
+            <th> Subject </th>
+            <th>Grade</th>
+            <th>Assesment Date</th>
+            <th> Assessment</th>
+
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+
+
+        $(document).ready(function () {
+            var studentId = @ViewBag.StudentID;
+            var table = $("#StudentAssessmentByParent").DataTable(
+            {
+                ajax: {
+                    async: true,
+                    url: "/api/studentdetails/GetStudentsAssessmentByParent/" + studentId,
+                    dataSrc: ""
+                },
+                columns:
+                [
+                    {
+                        data: "studentName",
+                        render: function (studentName) {
+                            return studentName;;
+                        }
+                    },
+                    {
+                        data: "academicYear",
+                        render: function (academicYear) {
+                            return academicYear;;
+                        }
+                    },
+                    {
+                        data: "studentSubject",
+                        render: function (studentSubject) {
+                            return studentSubject;;
+                        }
+                    },
+                    {
+                        data: "studentGrade",
+                        render: function (studentGrade) {
+                            return studentGrade;;
+                        }
+                    },
+                    {
+                        data: "assessmentDate",
+                        render: function (assessmentDate) {
+                            return assessmentDate;;
+                        }
+                    },
+                    {
+                        data: "assessmentGrade",
+                        render: function (assessmentGrade) {
+                            return assessmentGrade;;
+                        }
+                    }
+                ]
+            });
+
+        })
+    </script>
+}
+

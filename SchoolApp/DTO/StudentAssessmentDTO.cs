@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using SchoolApp.Models;
 
-namespace SchoolApp.Models
+namespace SchoolApp.DTO
 {
-    public class StudentAssessment
+    public class StudentAssessmentDTO
     {
         public int ID { get; set; }
         public Student Student { get; set; }
@@ -23,6 +24,5 @@ namespace SchoolApp.Models
         public string InsertUser { get; set; }
         public DateTime UpdateDate { get; set; }
         public string UpdateUser { get; set; }
-
     }
 }

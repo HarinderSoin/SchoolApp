@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Data.Entity;
 using System.Web.Http;
+using System.Web.Mvc;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
 using SchoolApp.DTO;
@@ -13,6 +14,7 @@ using WebGrease.Css.Ast.Selectors;
 
 namespace SchoolApp.Controllers.API
 {
+    [System.Web.Http.Route("api/[controller]/[action]")]
     public class StudentController : ApiController
     {
         private ApplicationDbContext _context;
@@ -24,7 +26,7 @@ namespace SchoolApp.Controllers.API
             this.studentUser = new StudentUser();
         }
 
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         public IHttpActionResult CreateStudent(StudentDTO studentDto)
         {
             if(!ModelState.IsValid)
@@ -47,7 +49,7 @@ namespace SchoolApp.Controllers.API
             return Created(new Uri(Request.RequestUri + "/" + studentDto.ID), studentDto );
         }
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
        public IHttpActionResult GetStudents()
         {
             var studentDto = _context.Students
@@ -57,7 +59,7 @@ namespace SchoolApp.Controllers.API
             return Ok(studentDto);
         } 
 
-        [HttpGet]
+        [System.Web.Http.HttpGet]
         public IHttpActionResult GetStudent(int id)
         {
             var student = _context.Students.SingleOrDefault(s => s.ID == id); 
@@ -69,8 +71,9 @@ namespace SchoolApp.Controllers.API
             return Ok(studentDto);
         }
 
-        [HttpGet]
-        [Route("getStudentsByParent")]
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/student/getStudentsByParent")]
+        [ValidateAntiForgeryToken]
         public IHttpActionResult GetStudentsByParent()
         {
             var userId = User.Identity.GetUserId();
@@ -79,17 +82,13 @@ namespace SchoolApp.Controllers.API
                            pr in _context.Parents
                            on 
                            stu.ParentID equals pr.ID
-                           where pr.UserId ==userId
+                           where stu.UserId == userId
                            select new
                            {
-                               stu.ID,
-                               stu.FirstName, 
-                               stu.LastName,
-                               stu.DateOfBirth, 
-                               pr.Parent1Name,
-                               pr.Parent1LastName,
-                               pr.Parent2Name,
-                               pr.Parent2LastName
+                               Id= stu.ID,
+                               studentName = stu.FirstName + " " + stu.LastName, 
+                               studentDOB = stu.DateOfBirth, 
+                               parentsName = pr.Parent1Name + " " + pr.Parent1LastName + " & " + pr.Parent2Name + " " + pr.Parent2LastName,
                            }
                            );
             return Ok(student);

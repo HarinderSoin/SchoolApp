@@ -227,12 +227,16 @@
     <Compile Include="Controllers\API\RoomsController.cs" />
     <Compile Include="Controllers\API\StateController.cs" />
     <Compile Include="Controllers\API\StudentController.cs" />
+    <Compile Include="Controllers\API\StudentDetailsController.cs" />
     <Compile Include="Controllers\API\SubjectsController.cs" />
+    <Compile Include="Controllers\API\TeachersController.cs" />
     <Compile Include="Controllers\ClassAllocationController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ParentController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\StudentDetailController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="DTO\AcademicYearDTO.cs" />
     <Compile Include="DTO\ClassAllocationDTO.cs" />
     <Compile Include="DTO\ClassPeriodDTO.cs" />
@@ -240,8 +244,11 @@
     <Compile Include="DTO\ParentDTO.cs" />
     <Compile Include="DTO\RoomDTO.cs" />
     <Compile Include="DTO\StateDTO.cs" />
+    <Compile Include="DTO\StudentAssessmentDTO.cs" />
+    <Compile Include="DTO\StudentAssignmentDTO.cs" />
     <Compile Include="DTO\StudentDTO.cs" />
     <Compile Include="DTO\SubjectDTO.cs" />
+    <Compile Include="DTO\TeacherDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -313,6 +320,22 @@
     <Compile Include="Migrations\201705040215119_addrequiredUserIdToParent.Designer.cs">
       <DependentUpon>201705040215119_addrequiredUserIdToParent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705091750088_addTeacherandStudentStructures.cs" />
+    <Compile Include="Migrations\201705091750088_addTeacherandStudentStructures.Designer.cs">
+      <DependentUpon>201705091750088_addTeacherandStudentStructures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705102027094_addStudentAssessment.cs" />
+    <Compile Include="Migrations\201705102027094_addStudentAssessment.Designer.cs">
+      <DependentUpon>201705102027094_addStudentAssessment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705102046475_addStudentAssessmentStructure.cs" />
+    <Compile Include="Migrations\201705102046475_addStudentAssessmentStructure.Designer.cs">
+      <DependentUpon>201705102046475_addStudentAssessmentStructure.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705102126000_addAssessmentDateToStudentAssessments.cs" />
+    <Compile Include="Migrations\201705102126000_addAssessmentDateToStudentAssessments.Designer.cs">
+      <DependentUpon>201705102126000_addAssessmentDateToStudentAssessments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYear.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -329,8 +352,12 @@
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAssessment.cs" />
+    <Compile Include="Models\StudentAssignment.cs" />
     <Compile Include="Models\StudentUser.cs" />
     <Compile Include="Models\Subject.cs" />
+    <Compile Include="Models\Teacher.cs" />
+    <Compile Include="Models\TeacherAssignment.cs" />
+    <Compile Include="Models\TeacherNote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ClassAllocationVM.cs" />
@@ -634,6 +661,9 @@
     <Content Include="Views\ClassAllocation\ListClassAllocations.cshtml" />
     <Content Include="Views\Parent\RegisterParents.cshtml" />
     <Content Include="Views\Student\ListStudentsbyParent.cshtml" />
+    <Content Include="Views\StudentDetail\StudentAssessmentByParent.cshtml" />
+    <Content Include="Views\StudentDetail\EnterStudentAssessment.cshtml" />
+    <Content Include="Views\Teacher\RegisterTeacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -698,6 +728,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705040215119_addrequiredUserIdToParent.resx">
       <DependentUpon>201705040215119_addrequiredUserIdToParent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705091750088_addTeacherandStudentStructures.resx">
+      <DependentUpon>201705091750088_addTeacherandStudentStructures.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705102027094_addStudentAssessment.resx">
+      <DependentUpon>201705102027094_addStudentAssessment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705102046475_addStudentAssessmentStructure.resx">
+      <DependentUpon>201705102046475_addStudentAssessmentStructure.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705102126000_addAssessmentDateToStudentAssessments.resx">
+      <DependentUpon>201705102126000_addAssessmentDateToStudentAssessments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
