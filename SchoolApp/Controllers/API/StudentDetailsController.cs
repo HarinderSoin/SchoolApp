@@ -132,7 +132,7 @@ namespace SchoolApp.Controllers.API
 
             _context.SaveChanges();
 
-            return Created(new Uri(Request.RequestUri + "/" + studentAssignmentDto.ID), studentAssignmentDto);
+            return Created(new Uri(Request.RequestUri + "/" + studentAssessmentDto.ID), studentAssessmentDto);
         }
     }
     }
