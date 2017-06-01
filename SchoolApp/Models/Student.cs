@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -32,6 +33,9 @@ namespace SchoolApp.Models
         [ForeignKey("User")]
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
+
+        public int AcademicYearID { get; set; }
+        public AcademicYear AcademicYear { get; set; }
 
     }
 }

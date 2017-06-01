@@ -30,7 +30,13 @@ namespace SchoolApp.App_Start
             CreateMap<ClassAllocationDTO, ClassAllocation>();
             CreateMap<State, StateDTO>();
             CreateMap<StateDTO, State>();
-            
+            CreateMap<Teacher, TeacherDTO>();
+            CreateMap<TeacherDTO, Teacher>();
+            CreateMap<TeacherAssignment, TeacherAssignmentDTO>();
+            CreateMap<TeacherAssignmentDTO, TeacherAssignment>();
+            CreateMap<StudentAssignment, StudentAssignmentDTO>();
+            CreateMap<StudentAssignmentDTO, StudentAssignment>();
+
 
 
 

@@ -1,0 +1,88 @@
+﻿
+@{
+    ViewBag.Title = "ListStudentAllocationByTeacher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Student Allocation By Teacher</h2>
+
+<table id="StudentAssignment" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Student Name</th>
+            <th>Student Phone</th>
+            <th>Student Email</th>
+            <th>Parents Name</th>
+            <th>Parent Email</th>
+            <th>Parents Phone</th>
+            <th>Academic Year</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+            var classAllocationId = @ViewBag.ClassAllocationID;
+            var table = $("#StudentAssignment").DataTable(
+            {
+
+                ajax: {
+                    async: true,
+                    url: "/api/teachers/StudentAssignmentByTeacher/" +classAllocationId,
+                    dataSrc: ""
+                },
+                columns:
+                [
+                    {
+                        data: "studentName",
+                        render: function (studentName) {
+                            return studentName;;
+                        }
+                    },
+                    {
+                        data: "studentPhone",
+                        render: function (studentPhone) {
+                            return studentPhone;
+                        }
+                    },
+                    {
+                        data: "studentEmail",
+                        render: function (studentEmail) {
+                            return studentEmail;
+                        }
+                    },
+                    {
+                        data: "parentName",
+                        render: function (parentName) {
+                            return parentName;
+                        }
+                    },
+                    {
+                        data: "parentEmail",
+                        render: function (parentEmail) {
+                            return parentEmail;
+                        }
+                    },
+                    {
+                        data: "parentPhone",
+                        render: function (parentPhone) {
+                            return parentPhone;
+                        }
+                    },
+                        {
+                            data: "schoolYear",
+                            render: function (schoolYear) {
+                                return schoolYear;
+                            }
+                        }
+                ]
+            });
+
+        });
+    </script>
+}
+

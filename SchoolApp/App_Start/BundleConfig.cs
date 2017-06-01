@@ -10,9 +10,12 @@ namespace SchoolApp
         {
             bundles.Add(new ScriptBundle("~/bundles/lib").Include(
                         "~/Scripts/jquery-{version}.js",
+                        "~/Scripts/jquery-ui-{version}.js",
                         "~/Scripts/bootstrap.js",
                         "~/Scripts/bootbox.js",
                         "~/Scripts/respond.js",
+                        "~/Scripts/DataTables/bootstrap-datetimepicker-min.js",
+                         "~/Scripts/DataTables/moment.min.js",
                         "~/Scripts/DataTables/jquery.dataTables.js",
                         "~/Scripts/DataTables/dataTables.bootstrap.js",
                         "~/Scripts/DataTables/dataTables.buttons.js",
@@ -30,8 +33,10 @@ namespace SchoolApp
 
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap-lumen.css", 
+                      "~/Content/bootstrap-lumen.css",
+                      "~/Content/themes/base/jquery-ui.css",
                       "~/Content/DataTables/css/dataTables.bootstrap.css",
+                      "~/Content/bootstrap-datetimepicker3.css",
                       "~/Content/Datatables/css/buttons.bootstrap.css",
                       "~/Content/site.css"));
         }

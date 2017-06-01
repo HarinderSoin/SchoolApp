@@ -27,5 +27,7 @@ namespace SchoolApp.DTO
         public int ParentID { get; set; }
 
         public string UserId { get; set; }
+        public int AcademicYearID { get; set; }
+
     }
 }

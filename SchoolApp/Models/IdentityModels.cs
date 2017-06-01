@@ -1,4 +1,6 @@
 ﻿using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -43,23 +45,25 @@ namespace SchoolApp.Models
         public DbSet<StudentAssessment> StudentAssessments { get; set; }
         public DbSet<AssessmentGrades> AssessmentGrades { get; set; }
 
-        /*
-        public DbSet<TeacherNote> TeachersNotes{ get; set; }
-        */
-        /*
+
+
+
+
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TeacherNote>()
-                        .HasRequired(t => t.Teacher)
-                        .WithMany()
-                        .WillCascadeOnDelete(true);
 
             base.OnModelCreating(modelBuilder);
+
+
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
-        */
+
+  
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+          
         }
 
         public static ApplicationDbContext Create()

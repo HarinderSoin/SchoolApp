@@ -1,0 +1,132 @@
+﻿
+@{
+    ViewBag.Title = "ListTeacherAllocation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Teacher Assignment</h2>
+<br />
+
+
+<table id="TeacherAssignment" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Teacher Name</th>
+            <th> Subject </th>
+            <th>Grade</th>
+            <th>Room</th>
+            <th>Class Period</th>
+            <th>Academic Year</th>
+            <th>Student Details</th>
+            <th>Attendance</th>
+            <th>Assessment</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function() {
+            var table = $("#TeacherAssignment").DataTable(
+            {
+                ajax: {
+                    async: true,
+                    url: "/api/teachers/ListTeacherAssignmentbyTeacher",
+                    dataSrc: ""
+                },
+                columns:
+                [
+                    {
+                        data: "teacherName",
+                        render: function(teacherName) {
+                            return teacherName;;
+                        }
+                    },
+                    {
+                        data: "subject",
+                        render: function(subject) {
+                            return subject;;
+                        }
+                    },
+                    {
+                        data: "grade",
+                        render: function(grade) {
+                            return grade;
+                        }
+                    },
+                    {
+                        data: "room",
+                        render: function(room) {
+                            return room;
+                        }
+                    },
+                    {
+                        data: "classPeriod",
+                        render: function(classPeriod) {
+                            return classPeriod;
+                        }
+                    },
+                    {
+                        data: "schoolYear",
+                        render: function(schoolYear) {
+                            return schoolYear;
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button class='btn-link js-Details' data-classAllocation-id =" +
+                                data +
+                                ">Student Details </button>";
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button2 class='btn-link js-Attendance' data-classAllocation-id =" +
+                                data +
+                                ">Attendance </button>";
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function(data) {
+                            return "<button3 class='btn-link js-Assessment' data-classAllocation-id =" +
+                                data +
+                                ">Assessment </button>";
+                        }
+                    },
+                ]
+            });
+
+            // Student Details Button
+            $("#TeacherAssignment").on("click",
+                ".js-Details",
+                function() {
+                    var button = $(this);
+                    var location = "/teacher/ListStudentAllocationByTeacher/" +
+                        button.attr("data-classAllocation-id");
+                    window.location = location;
+
+                });
+
+            // Student Assessment Button
+            $("#TeacherAssignment").on("click",
+                ".js-Assessment",
+                function () {
+                    var button3 = $(this);
+                    var location = "/teacher/StudentAssessmentByTeacher/" +
+                        button3.attr("data-classAllocation-id");
+                    window.location = location;
+
+                });
+        })
+    </script>
+}
+
+
+
+

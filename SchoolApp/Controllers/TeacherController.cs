@@ -13,5 +13,32 @@ namespace SchoolApp.Controllers
         {
             return View("RegisterTeacher");
         }
+
+        public ActionResult TeacherAllocation()
+        {
+            return View("TeacherAllocation");
+        }
+
+        public ActionResult ListTeacherAllocation()
+        {
+            return View("ListTeacherAllocation");
+        }
+
+        public ActionResult ListTeacherAllocationByTeacher()
+        {
+            return View("ListTeacherAllocationByTeacher");
+        }
+
+        public ActionResult ListStudentAllocationByTeacher(int id)
+        {
+            ViewBag.ClassAllocationID = id;
+            return View("ListStudentAllocationByTeacher", id);
+        }
+
+        public ActionResult StudentAssessmentByTeacher(int id)
+        {
+            ViewBag.ClassAllocationID = id;
+            return View("EnterStudentAssessmentByTeacher", id);
+        }
     }
 }

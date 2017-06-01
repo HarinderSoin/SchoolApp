@@ -71,7 +71,7 @@
                     {
                         data: "id",
                         render: function(data) {
-                            return "<button class='btn-link js-classAllocation' data-student-id =" +
+                            return "<button class='btn-link js-assignment' data-student-id =" +
                                 data +
                                 ">Class Allocation </button>";
                         }
@@ -89,6 +89,17 @@
                 var location = "/studentdetail/studentAssessmentByParent/" +
                     button.attr("data-student-id") ;
                 window.location= location;
+
+            });
+
+        //Assignment Button
+        $("#ListStudentsByParent").on("click",
+            ".js-assignment",
+            function () {
+                var button = $(this);
+                var location = "/studentDetail/StudentAssignmentByParent/" +
+                    button.attr("data-student-id");
+                window.location = location;
 
             });
 </script>

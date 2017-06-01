@@ -11,8 +11,27 @@ namespace SchoolApp.Controllers
         // GET: StudentDetail
         public ActionResult StudentAssessmentByParent(int id)
         {
-            ViewBag.StudentId = id;
+            ViewBag.StudentID = id;
             return View("StudentAssessmentByParent", id);
         }
+
+        // GET: ListStudentAssignment
+        public ActionResult ListStudentAssignment()
+        {
+
+            return View("ListStudentAssignment");
+        }
+
+        public ActionResult StudentAssignmentByParent(int id)
+        {
+            ViewBag.StudentId = id;
+            return View("ListStudentAssignmentByParent", id);
+        }
+
+        public ActionResult CreateStudentAssignement()
+        {
+            return View("CreateStudentAssignment");
+        }
+
     }
 }

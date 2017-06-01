@@ -17,6 +17,8 @@ namespace SchoolApp.Models
 
         public Grade Grade { get; set; }
         public int GradeID { get; set; }
+        public AcademicYear AcademicYear { get; set; }
+        public int AcademicYearID { get; set; }
 
         public DateTime InsertDate { get; set; }
         public string InsertUser { get; set; }

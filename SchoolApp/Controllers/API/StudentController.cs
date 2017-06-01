@@ -27,6 +27,7 @@ namespace SchoolApp.Controllers.API
         }
 
         [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("api/Student/CreateStudent")]
         public IHttpActionResult CreateStudent(StudentDTO studentDto)
         {
             if(!ModelState.IsValid)
@@ -50,7 +51,8 @@ namespace SchoolApp.Controllers.API
         }
 
         [System.Web.Http.HttpGet]
-       public IHttpActionResult GetStudents()
+        [System.Web.Http.Route("api/Student/GetStudents")]
+        public IHttpActionResult GetStudents()
         {
             var studentDto = _context.Students
                 .Include(p => p.Parent)

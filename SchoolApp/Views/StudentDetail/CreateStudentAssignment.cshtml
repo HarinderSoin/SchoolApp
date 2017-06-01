@@ -1,0 +1,149 @@
+﻿
+@{
+    ViewBag.Title = "StudentEnrollment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Student Enrollment</h2>
+
+<style>
+    hr {
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+    }
+</style>
+
+
+
+<br />
+<div class ="row">
+    @Html.ActionLink("List Student Enrollment", "ListStudentAssignment", "StudentDetail", null, new { @class = "btn btn-primary" }) 
+</div>
+<br/>
+
+<form id="StudentEntry" method="post" action="/api/studentDetails/createStudentAssignment">
+
+<div class="row">
+            <div class="col-xs-3">
+                Select Student Name <br />
+                <select id="selectStudent" class="dropdown form-control input-xs required" name="studentID"></select>
+            </div>
+            
+            <div class="col-xs-3">
+                Select Subject <br />
+                <select id="selectSubject" class="dropdown form-control input-xs required" name="subjectID"></select>
+            </div>
+            
+            <div class="col-xs-3">
+                Select Grade <br />
+                <select id="selectGrade" class="dropdown form-control input-xs required" name="gradeID"></select>
+            </div>
+        
+            <div class="col-xs-3">
+                Select Academic Year <br />
+                <select id="selectYear" class="dropdown form-control input-xs required" name="academicYearID"></select>
+            </div>    
+</div>
+
+    <br />
+    <div class="row">
+        <div class="form-group">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-primary">Add Student Enrollment</button>
+        </div>
+    </div>
+</form>
+    
+
+@section scripts
+{
+
+    <script>
+
+
+        $(document).ready(function() {
+            //var userId = document.cookie;
+
+
+            $("#StudentEntry").submit(function(event) {
+                event.preventDefault();
+                var dat = $("#StudentEntry").serializeArray();
+                console.log(dat);
+                var actionURL = event.currentTarget.action;
+
+                $.ajax({
+                    url: actionURL,
+                    type: "post",
+                    data: dat
+                });
+                bootbox.confirm("Congratulations! Teacher Allocation Complete. Want to do another allocation?",
+                    function(result) {
+                        if (result) {
+                            window.location = '@Url.Action("CreateStudentAssignement", "StudentDetail")';
+                        } else {
+                            window.location = '@Url.Action("ListStudentAssignment", "StudentDetail")';
+                        }
+            });
+        });
+
+        //Show Teachers
+        var select = $("#selectStudent");
+        $.ajax({
+            url: "/api/Student/GetStudents",
+            type: "get",
+            success: function(data) {
+                $.each(data,
+                    function(i, data) {
+                        select.append("<option value='" + data.id + "'>" + data.firstName + " "+ data.lastName + "</option>");
+                    });
+            }
+        });
+
+        //Show Subjects
+        var select2 = $("#selectSubject");
+        $.ajax({
+            url: "/api/Subjects",
+            type: "get",
+            success: function (data) {
+                $.each(data,
+                    function (i, data) {
+                        select2.append("<option value='" + data.id + "'>" + data.name +"</option>");
+                    });
+            }
+        });
+
+            //Show Grades
+        var select3 = $("#selectGrade");
+        $.ajax({
+            url: "/api/Grades",
+            type: "get",
+            success: function (data) {
+                $.each(data,
+                    function (i, data) {
+                        select3.append("<option value='" + data.id + "'>" + data.classDescription + "</option>");
+                    });
+            }
+        });
+
+            //Show Academic Year
+        var select4 = $("#selectYear");
+        $.ajax({
+            url: "/api/AcademicYears",
+            type: "get",
+            success: function (data) {
+                $.each(data,
+                    function (i, data) {
+                        select4.append("<option value='" + data.id + "'>" + data.schoolYear + "</option>");
+                    });
+            }
+        });
+
+    });
+
+    </script>
+}
