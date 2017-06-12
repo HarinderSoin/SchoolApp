@@ -33,7 +33,7 @@
 @section scripts
 {
     <script>
-
+       
         $(document).ready(function() {
             var table = $("#StudentAssignment").DataTable(
             {
@@ -68,31 +68,31 @@
                             return roomName;
                         }
                     },
-                        {
-                            data: "classPeriod",
-                            render: function (classPeriod) {
-                                return classPeriod;
-                            }
-                        },
-                        {
-                            data: "teacherName",
-                            render: function (teacherName) {
-                                return teacherName;
-                            }
-                        },
-                        {
-                            data: "teacherEmail",
-                            render: function (teacherEmail) {
-                                return teacherEmail;
-                            }
-                        },
+                    {
+                        data: "classPeriod",
+                        render: function (classPeriod) {
+                            return classPeriod;
+                        }
+                    },
+                    {
+                        data: "teacherName",
+                        render: function (teacherName) {
+                            return teacherName;
+                        }
+                    },
+                    {
+                        data: "teacherEmail",
+                        render: function (teacherEmail) {
+                            return teacherEmail;
+                        }
+                    },
 
-                        {
-                            data: "schoolYear",
-                            render: function (schoolYear) {
-                                return schoolYear;
-                            }
-                        },
+                    {
+                        data: "schoolYear",
+                        render: function (schoolYear) {
+                            return schoolYear;
+                        }
+                    },
                     {
                         data: "id",
                         render: function(data) {
@@ -136,13 +136,13 @@
                 ".js-edit",
                 function(data, type, classAllocation) {
                     var button = $(this);
- //                   bootbox.confirm("Are you sure you want to edit this allocation?",
- //                       function(result) {
-                            return "<a href = '/student/RegisterStudent/" +
-                                    button.attr("data-classAllocationedit-id") +
-                                    "'>" +
-                                    "</a";
-  //                      });
+                    //                   bootbox.confirm("Are you sure you want to edit this allocation?",
+                    //                       function(result) {
+                    return "<a href = '/student/RegisterStudent/" +
+                        button.attr("data-classAllocationedit-id") +
+                        "'>" +
+                        "</a";
+                    //                      });
                 });
         });
     </script>

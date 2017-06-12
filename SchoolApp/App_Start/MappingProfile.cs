@@ -36,6 +36,8 @@ namespace SchoolApp.App_Start
             CreateMap<TeacherAssignmentDTO, TeacherAssignment>();
             CreateMap<StudentAssignment, StudentAssignmentDTO>();
             CreateMap<StudentAssignmentDTO, StudentAssignment>();
+            CreateMap<StudentAssessmentDTO, StudentAssessment>();
+            CreateMap<StudentAssessment, StudentAssessmentDTO>();
 
 
 

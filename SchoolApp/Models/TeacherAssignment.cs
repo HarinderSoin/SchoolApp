@@ -12,11 +12,8 @@ namespace SchoolApp.Models
         public Teacher Teacher { get; set; }
 
         public int TeacherID { get; set; }
-        public Subject Subject { get; set; }
-        public int SubjectID { get; set; }
-
-        public Grade Grade { get; set; }
-        public int GradeID { get; set; }
+        public ClassAllocation ClassAllocation { get; set; }
+        public int ClassAllocationID { get; set; }
         public AcademicYear AcademicYear { get; set; }
         public int AcademicYearID { get; set; }
 

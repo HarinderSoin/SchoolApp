@@ -19,13 +19,29 @@ namespace SchoolApp.BusinessLogic.ClassAllocation
             _context = new ApplicationDbContext();
         }
 
-
-        public bool ValidateDupicateData(Models.ClassAllocation classAllocation)
+        public string ValidateClassAllocation(Models.ClassAllocation classAllocation)
         {
+            // Validate Subject, Grade, Period and Room for duplicates
+            var isClassAllocationValid = ValidateDuplicateAllocations(classAllocation);
+            if (!isClassAllocationValid)
+                return "Duplicate Class Allocation Found!";
+
+            //Validate Subject and Grades
+            var classGradeValid = ValidateDuplicateClassandGrades(classAllocation);
+            if (!classGradeValid)
+                return "Duplicate Class and Grade Allocation Found!";
+
+            // Validate Subject, Grades and Periods for duplication
+            var classGradePeriodValid = ValidateDuplicateClassandGradesandPeriod(classAllocation);
+            if (!classGradePeriodValid)
+                return "Duplicate Class, Grade and Period Allocation Found!";
 
 
+            return "All Tests Passed!";
 
-
+        }
+        private bool ValidateDuplicateAllocations(Models.ClassAllocation classAllocation)
+        {
             _classAllocationRec = classAllocation;
             string _sql = "select *  from dbo.ClassAllocations where " +
                           "GradeID = " +this._classAllocationRec.GradeID +" and "+ 
@@ -40,6 +56,35 @@ namespace SchoolApp.BusinessLogic.ClassAllocation
                 return false;
 
             return true; 
+        }
+
+        private bool ValidateDuplicateClassandGrades(Models.ClassAllocation classAllocation)
+        {
+            string _sql = "select *  from dbo.ClassAllocations where " +
+              "GradeID = " + this._classAllocationRec.GradeID + " and " +
+              "SubjectID =" + this._classAllocationRec.SubjectID ;
+
+            var _noOfRows = _context.ClassAllocations.SqlQuery(_sql).ToList();
+
+            if (_noOfRows.Any())
+                return false;
+
+            return true;
+        }
+
+        private bool ValidateDuplicateClassandGradesandPeriod(Models.ClassAllocation classAllocation)
+        {
+            string _sql = "select *  from dbo.ClassAllocations where " +
+              "GradeID = " + this._classAllocationRec.GradeID + " and " +
+              "SubjectID =" + this._classAllocationRec.SubjectID+
+               "GradeID =" + this._classAllocationRec.GradeID;
+
+            var _noOfRows = _context.ClassAllocations.SqlQuery(_sql).ToList();
+
+            if (_noOfRows.Any())
+                return false;
+
+            return true;
         }
     }
 }

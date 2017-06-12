@@ -38,11 +38,10 @@ namespace SchoolApp.Controllers.API
 
             var _validateClassAllocation = new BusinessLogic.ClassAllocation.ClassAllocationValidation();
 
-            bool _isClassAllocationValid = _validateClassAllocation.ValidateDupicateData(classAllocation);
+            var _isClassAllocationValid = _validateClassAllocation.ValidateClassAllocation(classAllocation);
 
-            if (!_isClassAllocationValid)
-                return Ok("You cannot enter a duplicate class allocation");
-
+            if (_isClassAllocationValid != "All Tests Passed!")
+                return Ok(_isClassAllocationValid);
 
             _context.ClassAllocations.Add(classAllocation);
             _context.SaveChanges();

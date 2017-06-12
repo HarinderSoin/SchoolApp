@@ -1,19 +1,131 @@
-﻿<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("School App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .navbar-default {
+            background-color: #e6e6e6 !important;
+            border-left: 0px !important;
+            border-right: 0px !important;
+            border-radius: 0 !important;
+            -moz-border-radius: 0 !important;
+            /*Used for bigger navigation bar*/
+            /*height: 75px !important;
+            font-size: large;*/
+        }
+
+        .navbar-nav > li > a {
+            /*Used for bigger navigation bar*/
+            /*line-height: 40px;*/
+        }
+
+        .navbar-text {
+            /*Used for bigger naviagtion bar*/
+            /*line-height: 40px;*/
+            font-style: italic;
+        }
+
+        #logIn {
+            margin-right: 30px;
+        }
+
+        #register {
+            margin-right: 10px;
+        }
+
+        #toggle {
+            /*Used for bigger naviagtion bar*/
+            /*margin-top: 18px;*/
+        }
+
+        #navi a {
+            /*changes font color*/
+            color: #2a2a2a;
+        }
+
+        .navbar-text {
+            /*changes font color*/
+            color: #111111 !important;
+        }
+
+        .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+            /*Sets the text hover color on navbar*/
+            color: #161097 !important;
+        }
+
+        .dropdown-menu {
+            background-color: #e6e6e6 !important;
+        }
+
+            .dropdown-menu > li > a:hover {
+                background-color: #28aaeb;
+                background-image: none;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div id="cont" class="container-fluid">
+            <div class="navbar-header">
+                <button id="toggle" type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navi">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h4 class="navbar-text"><strong>SchoolApp</strong></h4>
+            </div>
+            <div class="collapse navbar-collapse" id="navi">
+                <ul class="nav navbar-nav">
+                    <li><a href="/home/Index">Home</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Parents <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/parent/index">Register as Parent</a></li>
+                            <li><a href="/student/enterstudent">Register your Children</a></li>
+                            <li><a href="/student/ListStudentsByParent">View Student Details</a></li>
+                            <li><a href="/student/ListStudentsByParent">Renew Registration</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown"  href="#" >Teachers <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/teacher/listteacherallocationbyteacher">View Class Assignments</a></li>
+                            <li><a href="/teacher/teacherallocation">Log Attendance</a></li>
+                            <li><a href="/teacher/teacherallocation">Enter Evaluations</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown"  href="#">Students <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/student/ListStudentByStudent">View Activity</a></li>
+                            <li><a href="/student/ListScheduleByStudent">View Your Schedule</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown"  href="#">Admin <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/studentdetail/liststudentassignment">Maintain Student Assignments</a></li>
+                            <li><a href="/classallocation/listclassallocations">Maintain Class Schedule</a></li>
+                            <li><a href="/teacher/registerteacher">Register a Teacher</a></li>
+                            <li><a href="/teacher/listTeacherAllocation">Maintain Teacher Assignments</a></li>
+                            <li><a href="/teacher/listTeacherAllocation">Create a new Subject</a></li>
+                            <li><a href="/teacher/listTeacherAllocation">Maintain Fee Submission</a></li>
+                            <li><a href="/teacher/listTeacherAllocation">Prepare for new Academic Year</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/home/about">About</a></li>
+                    <li><a href="/home/contact">Contact</a></li>
+                </ul>
+
+                @Html.Partial("_LoginPartial")
+            </div>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-            </ul>
-            @Html.Partial("_LoginPartial")
-        </div>
-    </div>
-</div>
+    </nav>
+
+</body>
+</html>

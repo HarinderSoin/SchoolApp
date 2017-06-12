@@ -1,4 +1,9 @@
 ﻿<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -13,9 +18,25 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - School Application</p>
-        </footer>
+        <style>
+            #footer {
+                background-color: #a0a0a0;
+            }
+
+            .navbar-text {
+                color: black !important;
+                left: 50% !important;
+            }
+        </style>
+        </head>
+        <body>
+            <nav id="footer" class="navbar navbar-default navbar-fixed-bottom">
+                <div class="container">
+                    <h5 class="navbar-text">School App (c) 2017</h5>
+                </div>
+            </nav>
+        </body>
+
     </div>
 
     @Scripts.Render("~/bundles/lib")

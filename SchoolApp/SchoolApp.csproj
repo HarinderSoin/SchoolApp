@@ -246,6 +246,7 @@
     <Compile Include="DTO\StateDTO.cs" />
     <Compile Include="DTO\StudentAssessmentDTO.cs" />
     <Compile Include="DTO\StudentAssignmentDTO.cs" />
+    <Compile Include="DTO\StudentAttendenceDTO.cs" />
     <Compile Include="DTO\StudentDTO.cs" />
     <Compile Include="DTO\SubjectDTO.cs" />
     <Compile Include="DTO\TeacherAssignmentDTO.cs" />
@@ -353,13 +354,37 @@
     <Compile Include="Migrations\201705272308339_addAcademicYearToStudent.Designer.cs">
       <DependentUpon>201705272308339_addAcademicYearToStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706020013154_addSemesters.cs" />
+    <Compile Include="Migrations\201706020013154_addSemesters.Designer.cs">
+      <DependentUpon>201706020013154_addSemesters.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706040140571_addStudentAttendence.cs" />
+    <Compile Include="Migrations\201706040140571_addStudentAttendence.Designer.cs">
+      <DependentUpon>201706040140571_addStudentAttendence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706041826403_changeStudentAssignment.cs" />
+    <Compile Include="Migrations\201706041826403_changeStudentAssignment.Designer.cs">
+      <DependentUpon>201706041826403_changeStudentAssignment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706042334239_changeTeacherAssignment.cs" />
+    <Compile Include="Migrations\201706042334239_changeTeacherAssignment.Designer.cs">
+      <DependentUpon>201706042334239_changeTeacherAssignment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706042355016_addAcademicYearToSA.cs" />
+    <Compile Include="Migrations\201706042355016_addAcademicYearToSA.Designer.cs">
+      <DependentUpon>201706042355016_addAcademicYearToSA.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706051534425_FixStudentAssessment.cs" />
+    <Compile Include="Migrations\201706051534425_FixStudentAssessment.Designer.cs">
+      <DependentUpon>201706051534425_FixStudentAssessment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYear.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AssessmentGrades.cs" />
     <Compile Include="Models\ClassAllocation.cs" />
     <Compile Include="Models\RoleName.cs" />
-    <Compile Include="Models\StudentAllocation.cs" />
+    <Compile Include="Models\Semester.cs" />
     <Compile Include="Models\ClassPeriod.cs" />
     <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -369,16 +394,19 @@
     <Compile Include="Models\State.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\StudentAssessment.cs" />
-    <Compile Include="Models\StudentAssessmentDetails.cs" />
     <Compile Include="Models\StudentAssignment.cs" />
-    <Compile Include="Models\StudentAssignmentByTeacherRS.cs" />
-    <Compile Include="Models\StudentAssignmentRS.cs" />
+    <Compile Include="ResultSets\StudentAssessmentRS.cs" />
+    <Compile Include="ResultSets\StudentAssignmentByTeacherRS.cs" />
+    <Compile Include="ResultSets\StudentAssignmentRS.cs" />
+    <Compile Include="Models\StudentAttendence.cs" />
     <Compile Include="Models\StudentUser.cs" />
     <Compile Include="Models\Subject.cs" />
     <Compile Include="Models\Teacher.cs" />
     <Compile Include="Models\TeacherAssignment.cs" />
     <Compile Include="Models\TeacherNote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultSets\StudentAttendeceRS.cs" />
+    <Compile Include="ResultSets\TeacherAssignmentRS.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\ClassAllocationVM.cs" />
   </ItemGroup>
@@ -917,9 +945,13 @@
     <Content Include="Views\Teacher\ListStudentAllocationByTeacher.cshtml" />
     <Content Include="Views\Teacher\ListTeacherAllocationByTeacher.cshtml" />
     <Content Include="Views\Teacher\EnterStudentAssessmentByTeacher.cshtml" />
+    <Content Include="Views\StudentDetail\EnterStudentAssignment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="BusinessLogic\StudentAllocation\" />
+    <Folder Include="BusinessLogic\TeacherAllocation\" />
+    <Folder Include="Images\" />
     <Folder Include="Views\Class\" />
   </ItemGroup>
   <ItemGroup>
@@ -1002,6 +1034,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705272308339_addAcademicYearToStudent.resx">
       <DependentUpon>201705272308339_addAcademicYearToStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706020013154_addSemesters.resx">
+      <DependentUpon>201706020013154_addSemesters.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706040140571_addStudentAttendence.resx">
+      <DependentUpon>201706040140571_addStudentAttendence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706041826403_changeStudentAssignment.resx">
+      <DependentUpon>201706041826403_changeStudentAssignment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706042334239_changeTeacherAssignment.resx">
+      <DependentUpon>201706042334239_changeTeacherAssignment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706042355016_addAcademicYearToSA.resx">
+      <DependentUpon>201706042355016_addAcademicYearToSA.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706051534425_FixStudentAssessment.resx">
+      <DependentUpon>201706051534425_FixStudentAssessment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

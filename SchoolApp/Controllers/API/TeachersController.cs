@@ -11,6 +11,7 @@ using AutoMapper;
 using Microsoft.AspNet.Identity;
 using SchoolApp.DTO;
 using SchoolApp.Models;
+using SchoolApp.ResultSets;
 
 namespace SchoolApp.Controllers.API
 {
@@ -80,40 +81,23 @@ namespace SchoolApp.Controllers.API
         [System.Web.Http.Route("api/teachers/ListTeacherAssignment")]
         public IHttpActionResult ListTeacherAssignment()
         {
-            var teacherAssignment = (from ta in _context.TeachersAssignments
-                join
-                gr in _context.Grades
-                on ta.GradeID equals gr.ID
-                join
-                sub in _context.Subjects
-                on ta.SubjectID equals sub.ID
-                join
-                ca in _context.ClassAllocations
-                on new {ta.SubjectID, ta.GradeID} equals new {ca.SubjectID, ca.GradeID}
-                join
-                cp in _context.ClassPeriods
-                on ca.ClassPeriodID equals cp.ID
-                join
-                rm in _context.Rooms on (int) ca.RoomID equals rm.ID
-                join
-                tr in _context.Teachers
-                on ta.TeacherID equals tr.ID
-                join 
-                ayr in _context.AcademicYears 
-                on ta.AcademicYearID equals ayr.ID
-                select new
-                {
-                    id = ta.ID,
-                    teacherName = tr.FirstName + " " + tr.LastName,
-                    subject = sub.Name,
-                    grade = gr.ClassDescription,
-                    room = rm.RoomDescription,
-                    classPeriod = cp.Description,
-                    schoolYear = ayr.SchoolYear
-                }
-            );
+            var user = User.Identity.GetUserId();
 
+            var userId = new SqlParameter()
+            {
+                ParameterName = "@UserId",
+                Value = "all"
+            };
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearId",
+                Value = 1
+            };
+
+            var teacherAssignment = _context.Database.SqlQuery<TeacherAssignmentRS>(
+                "EXEC spgetTeacherAssignments @UserId, @AcademicYearID", userId, academicYearId);
             return Ok(teacherAssignment);
+            
         }
 
         [System.Web.Http.HttpDelete]
@@ -144,15 +128,20 @@ namespace SchoolApp.Controllers.API
                 ParameterName = "@UserId",
                 Value = user
             };
-            var academicYearId = new SqlParameter()
+            var classAllocationId = new SqlParameter()
             {
                 ParameterName = "@ClassAllocationId",
                 Value = id
             };
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearId",
+                Value = 1
+            };
 
-            var teacherAssignment = _context.Database.SqlQuery<StudentAssignmentByTeacherRS>(
-                "EXEC spgetStudentAssignmentByTeacher @UserId, @ClassAllocationId", userId, academicYearId);
-            return Ok(teacherAssignment);
+            var studentAssignment = _context.Database.SqlQuery<StudentAssignmentByTeacherRS>(
+                "EXEC spgetStudentAssignmentByTeacher @UserId, @ClassAllocationId, @AcademicYearID", userId, classAllocationId, academicYearId);
+            return Ok(studentAssignment);
         }
 
         [System.Web.Http.HttpGet]
@@ -160,42 +149,22 @@ namespace SchoolApp.Controllers.API
         public IHttpActionResult ListTeacherAssignmentByTeacher()
         {
             var user = User.Identity.GetUserId();
-            var teacherAssignment = (from ta in _context.TeachersAssignments
-                                     join
-                                     gr in _context.Grades
-                                     on ta.GradeID equals gr.ID
-                                     join
-                                     sub in _context.Subjects
-                                     on ta.SubjectID equals sub.ID
-                                     join
-                                     ca in _context.ClassAllocations
-                                     on new { ta.SubjectID, ta.GradeID } equals new { ca.SubjectID, ca.GradeID }
-                                     join
-                                     cp in _context.ClassPeriods
-                                     on ca.ClassPeriodID equals cp.ID
-                                     join
-                                     rm in _context.Rooms on (int)ca.RoomID equals rm.ID
-                                     join
-                                     tr in _context.Teachers
-                                     on ta.TeacherID equals tr.ID
-                                     join
-                                     ayr in _context.AcademicYears
-                                     on ta.AcademicYearID equals ayr.ID
-                                     where tr.UserId == user
-                                     select new
-                                     {
-                                         teacherId = ta.ID,
-                                         id = ca.ID,
-                                         teacherName = tr.FirstName + " " + tr.LastName,
-                                         subject = sub.Name,
-                                         grade = gr.ClassDescription,
-                                         room = rm.RoomDescription,
-                                         classPeriod = cp.Description,
-                                         schoolYear = ayr.SchoolYear
-                                     }
-            );
 
+            var userId = new SqlParameter()
+            {
+                ParameterName = "@UserId",
+                Value = user
+            };
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearId",
+                Value = 1
+            };
+
+            var teacherAssignment = _context.Database.SqlQuery<TeacherAssignmentRS>(
+                "EXEC spgetTeacherAssignments @UserId, @AcademicYearID", userId, academicYearId);
             return Ok(teacherAssignment);
+            
         }
     }
 }

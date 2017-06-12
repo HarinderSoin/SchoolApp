@@ -25,26 +25,20 @@ namespace SchoolApp.Models
         public DbSet<Student> Students { get; set; }
         public DbSet<AcademicYear> AcademicYears { get; set; }
         public DbSet<ClassAllocation> ClassAllocations { get; set; }
-
         public DbSet<Room> Rooms { get; set; }
-
         public DbSet<Grade> Grades { get; set; }
-
         public DbSet<ClassPeriod> ClassPeriods { get; set; }
-
         public DbSet<Subject> Subjects { get; set; }
-
         public DbSet<Parent> Parents { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<StudentUser> StudentUsers { get; set; }
-
+        public DbSet<Semester> Semesters { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<TeacherAssignment> TeachersAssignments { get; set; }
-
         public DbSet<StudentAssignment> StudentAssignments { get; set; }
         public DbSet<StudentAssessment> StudentAssessments { get; set; }
         public DbSet<AssessmentGrades> AssessmentGrades { get; set; }
-
+        public DbSet<StudentAttendence> StudentAttendance { get; set; }
 
 
 

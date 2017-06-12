@@ -11,6 +11,7 @@ using AutoMapper;
 using Microsoft.AspNet.Identity;
 using SchoolApp.DTO;
 using SchoolApp.Models;
+using SchoolApp.ResultSets;
 
 namespace SchoolApp.Controllers.API
 {
@@ -30,37 +31,20 @@ namespace SchoolApp.Controllers.API
             public IHttpActionResult GetStudentsAssessmentByParent(int id)
             {
                 var userId = User.Identity.GetUserId();
-                var studentAssessment = (from stu in _context.Students
-                    join
-                    sa in _context.StudentAssessments
-                    on stu.ID equals sa.StudentID
-                    join
-                    su in _context.StudentUsers
-                    on sa.StudentID equals su.StudentID
-                    join
-                    gr in _context.Grades
-                    on sa.GradeID equals gr.ID
-                    join
-                    sub in _context.Subjects
-                    on sa.SubjectID equals sub.ID
-                    join
-                    ayr in _context.AcademicYears
-                    on sa.AcademicYearID equals ayr.ID
-                    join
-                    ag in _context.AssessmentGrades
-                    on sa.AssessmentGradesID equals ag.ID
-                    where stu.ID == id
-                    select new
-                    {
-                        Id = stu.ID,
-                        studentName = stu.FirstName + " " + stu.LastName,
-                        studentSubject = sub.Name,
-                        studentGrade = gr.ClassDescription,
-                        academicYear = ayr.SchoolYear,
-                        assessmentDate = sa.AssessmentDate,
-                        assessmentGrade = ag.Description
-                    }
-                );
+
+                var studentId = new SqlParameter()
+                {
+                    ParameterName = "@StudentID",
+                    Value = id
+                };
+                var academicYearId = new SqlParameter()
+                {
+                    ParameterName = "@AcademicYearID",
+                    Value = 1
+                };
+
+                var studentAssessment = _context.Database.SqlQuery<StudentAssessmentRS>(
+                    "EXEC spGetStudentAssessmentByStudent @StudentID, @AcademicYearID", studentId, academicYearId);
                 return Ok(studentAssessment);
             }
 
@@ -74,8 +58,14 @@ namespace SchoolApp.Controllers.API
                 ParameterName = "@StudentID", 
                 Value = 0
             };
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearID",
+                Value = 1
+            };
+
             var studentAssignment = _context.Database.SqlQuery<StudentAssignmentRS>(
-                "EXEC spGetStudentAssignment @StudentID", studentId);
+                "EXEC spGetStudentAssignment @StudentID, @AcademicYearID", studentId, academicYearId);
             return Ok(studentAssignment);
         }
 
@@ -89,8 +79,14 @@ namespace SchoolApp.Controllers.API
                 ParameterName = "@StudentID",
                 Value = id
             };
-            var studentAssignment = _context.Database.SqlQuery<StudentAssignmentByTeacherRS>(
-                "EXEC spGetStudentAssignment @StudentID", studentId);
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearID",
+                Value = 1
+            };
+
+            var studentAssignment = _context.Database.SqlQuery<StudentAssignmentRS>(
+                "EXEC spGetStudentAssignment @StudentID, @AcademicYearID", studentId, academicYearId);
             return Ok(studentAssignment);
         }
 
@@ -114,7 +110,8 @@ namespace SchoolApp.Controllers.API
             return Created(new Uri(Request.RequestUri + "/" + studentAssignmentDto.ID), studentAssignmentDto);
         }
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
+        //[ValidateAntiForgeryToken]
         [System.Web.Http.Route("api/StudentDetails/EnterStudentAssessment")]
         public IHttpActionResult EnterStudentAssessment(StudentAssessmentDTO studentAssessmentDto)
         {
@@ -133,6 +130,35 @@ namespace SchoolApp.Controllers.API
             _context.SaveChanges();
 
             return Created(new Uri(Request.RequestUri + "/" + studentAssessmentDto.ID), studentAssessmentDto);
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/StudentDetails/GetStudentAttendence/{semesterID}/{classAllocationID}/{teacherID?}")]
+        public IHttpActionResult GetStudentAttendence(int semesterID, int classAllocationID, int teacherID)
+        {
+            var userId = User.Identity.GetUserId();
+            var teacherId = new SqlParameter()
+            {
+
+                ParameterName = "@TeacherID",
+                Value = 0
+            };
+            var semesterId = new SqlParameter()
+            {
+                ParameterName = "@SemesterID",
+                Value = semesterID
+            };
+            var classAllocationId = new SqlParameter()
+            {
+                ParameterName = "@ClassAllocationID",
+                Value = classAllocationID
+            };
+
+
+
+            var studentAttendence = _context.Database.SqlQuery<StudentAttendeceRS>(
+                "EXEC spGetClassAttendanceByClass @TeacherID, @SemesterID, @ClassAllocationID", teacherId, semesterId, classAllocationId);
+            return Ok(studentAttendence);
         }
     }
     }
