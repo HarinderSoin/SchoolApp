@@ -115,16 +115,22 @@
         });
 
             //Show Grades
-        var select3 = $("#selectGrade");
-        $.ajax({
-            url: "/api/Grades",
-            type: "get",
-            success: function (data) {
-                $.each(data,
-                    function (i, data) {
-                        select3.append("<option value='" + data.id + "'>" + data.classDescription + "</option>");
-                    });
-            }
+        $("#selectSubject").change(function () {
+            var subject = $(this).val();
+            var select3 = $("#selectGrade");
+            $.ajax({
+                url: "/api/ClassAllocations/GetGradesBySubject/" + subject,
+                type: "get",
+                success: function (data) {
+                    var html = '<li class="top-level">' + this.grade + '</li>';
+                    select3.empty();
+                    $.each(data,
+                        function (i, data) {
+                            select3
+                                .append("<option value='" + data.id + "'>" + data.grade.classDescription + "</option>");
+                        });
+                }
+            });
         });
 
     });

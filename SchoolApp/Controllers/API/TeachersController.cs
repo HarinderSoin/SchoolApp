@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Linq;
@@ -165,6 +166,92 @@ namespace SchoolApp.Controllers.API
                 "EXEC spgetTeacherAssignments @UserId, @AcademicYearID", userId, academicYearId);
             return Ok(teacherAssignment);
             
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/teachers/GetTeacherByUserId")]
+        public IHttpActionResult GetTeacherByUserId()
+        {
+            var user = User.Identity.GetUserId();
+
+            var userId = new SqlParameter()
+            {
+                ParameterName = "@UserId",
+                Value = user
+            };
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearId",
+                Value = 1
+            };
+
+            var teacherAssignment = _context.Database.SqlQuery<TeacherAssignmentRS>(
+                "EXEC spgetTeacherAssignments @UserId, @AcademicYearID", userId, academicYearId).GroupBy(s => s.SubjectName);
+
+            return Ok(teacherAssignment);
+
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/teachers/GetSubjectsByTeacher")]
+        public IHttpActionResult GetSubjectsByTeacher()
+        {
+            var user = User.Identity.GetUserId();
+
+            var userId = new SqlParameter()
+            {
+                ParameterName = "@UserId",
+                Value = user
+            };
+
+            var subjectID = new SqlParameter()
+            {
+                ParameterName = "@SubjectID",
+                Value = 0
+            };
+
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearId",
+                Value = 1
+            };
+
+            var teacherAssignment = _context.Database.SqlQuery<TeacherSubjectGradeRS>(
+                "EXEC spSelectDistinctSubjectandGradesForTeacher @UserId, @AcademicYearID, @SubjectID", userId, academicYearId, subjectID);
+
+            return Ok(teacherAssignment);
+
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/teachers/GetGradesByTeacher/{Id}")]
+        public IHttpActionResult GetGradesByTeacher(int Id)
+        {
+            var user = User.Identity.GetUserId();
+
+            var userId = new SqlParameter()
+            {
+                ParameterName = "@UserId",
+                Value = user
+            };
+
+            var subjectID = new SqlParameter()
+            {
+                ParameterName = "@SubjectID",
+                Value = Id
+            };
+
+            var academicYearId = new SqlParameter()
+            {
+                ParameterName = "@AcademicYearId",
+                Value = 1
+            };
+
+            var teacherAssignment = _context.Database.SqlQuery<TeacherSubjectGradeRS>(
+                "EXEC spSelectDistinctSubjectandGradesForTeacher @UserId, @AcademicYearID, @SubjectID", userId, academicYearId, subjectID);
+
+            return Ok(teacherAssignment);
+
         }
     }
 }

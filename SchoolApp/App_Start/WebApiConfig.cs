@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.OData.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -11,6 +12,8 @@ namespace SchoolApp
     {
         public static void Register(HttpConfiguration config)
         {
+            //Added for Odata
+            config.AddODataQueryFilter();
             // Added by HSS for JSON
             var settings = config.Formatters.JsonFormatter.SerializerSettings;
             settings.ContractResolver = new CamelCasePropertyNamesContractResolver();

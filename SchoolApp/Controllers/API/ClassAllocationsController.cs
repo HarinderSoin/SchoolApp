@@ -81,6 +81,21 @@ namespace SchoolApp.Controllers.API
             return Ok(Mapper.Map<ClassAllocation, ClassAllocationDTO>(ClassAllocation));
         }
 
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/ClassAllocations/GetGradesBySubject/{id}")]
+        public IHttpActionResult GetGradesBySubject(int id)
+        {
+            var classAllocationBySubject =
+                _context.ClassAllocations
+                .Include(s => s.Subject).Where(s => s.SubjectID == id)
+                .Include(c => c.Grade)
+                .ToList()
+                .Select(Mapper.Map<ClassAllocation, ClassAllocationDTO>);
+            if (classAllocationBySubject == null)
+                return NotFound();
+            return Ok(classAllocationBySubject);
+        }
+
         [System.Web.Http.HttpDelete]
         [ValidateAntiForgeryToken]
         public IHttpActionResult DeleteClassAllocation(int id)

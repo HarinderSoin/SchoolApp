@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "LogAttendence";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Log Attendance</h2>
+
+<div class="row">
+    <div class="col-xs-3">
+        Select Subject <br />
+        <select id="selectSubject" class="dropdown form-control input-xs required" name="subjectID"></select>
+    </div>
+
+    <div class="col-xs-3">
+        Select Grade <br />
+        <select id="selectGrade" class="dropdown form-control input-xs required" name="gradeID"></select>
+    </div>
+
+
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function()
+        {
+
+            //Show Subjects
+            var select3 = $("#selectSubject");
+            $.ajax({
+                url: "/api/teachers/GetSubjectsByTeacher",
+                type: "get",
+                success: function(data) {
+                    select3.empty();
+                    $.each(data,
+                        function(i, data) {
+                            select3
+                                .append("<option value='" + data.subjectID + "'>" + data.subjectName + "</option>");
+                        });
+                }
+            });
+
+            //Show Grades
+            $("#selectSubject").change(function() {
+                var subject = $(this).val();
+                var select3 = $("#selectGrade");
+                $.ajax({
+                    url: "/api/teachers/GetGradesByTeacher/" + subject,
+                    type: "get",
+                    success: function(data) {
+                        var html = '<li class="top-level">' + this.grade + '</li>';
+                        select3.empty();
+                        $.each(data,
+                            function(i, data) {
+                                select3
+                                    .append("<option value='" +
+                                        data.Gradeid +
+                                        "'>" +
+                                        data.gradeName +
+                                        "</option>");
+                            });
+                    }
+                });
+            });
+
+        });
+    </script>
+}
+

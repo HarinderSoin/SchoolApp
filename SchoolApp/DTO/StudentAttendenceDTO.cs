@@ -8,7 +8,7 @@ namespace SchoolApp.DTO
 {
     public class StudentAttendenceDTO
     {
-        public int id { get; set; }
+        public int ID { get; set; }
         public int StudentAssignmentID { get; set; }
         public DateTime AttendenceDate { get; set; }
         public bool IsPresent { get; set; }

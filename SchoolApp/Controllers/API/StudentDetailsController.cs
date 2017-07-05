@@ -160,5 +160,27 @@ namespace SchoolApp.Controllers.API
                 "EXEC spGetClassAttendanceByClass @TeacherID, @SemesterID, @ClassAllocationID", teacherId, semesterId, classAllocationId);
             return Ok(studentAttendence);
         }
+
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("api/StudentDetails/EnterStudentAttendence")]
+        public IHttpActionResult EnterStudentAttendence(StudentAttendenceDTO studentAttendenceDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            studentAttendenceDto.InsertDate = DateTime.Now;
+            studentAttendenceDto.UpdateDate = DateTime.Now;
+
+            var userId = User.Identity.GetUserId();
+
+            var studentAttendence = Mapper.Map<StudentAttendenceDTO, StudentAttendence>(studentAttendenceDto);
+
+            _context.StudentAttendance.Add(studentAttendence);
+
+            _context.SaveChanges();
+
+            return Created(new Uri(Request.RequestUri + "/" + studentAttendenceDto.ID), studentAttendenceDto);
+        }
+
     }
     }

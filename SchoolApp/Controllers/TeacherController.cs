@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.ApplicationInsights.Web;
+using Microsoft.AspNet.Identity;
 
 namespace SchoolApp.Controllers
 {
@@ -39,6 +41,14 @@ namespace SchoolApp.Controllers
         {
             ViewBag.ClassAllocationID = id;
             return View("EnterStudentAssessmentByTeacher", id);
+        }
+
+        public ActionResult LogAttendence()
+        {
+
+            var userId = User.Identity.GetUserId();
+            ViewBag.userId = userId;
+            return View("LogAttendence", (object)userId);
         }
     }
 }
