@@ -4,168 +4,198 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Register Family</h2>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+    <link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>
+    <script src="http://1000hz.github.io/bootstrap-validator/dist/validator.min.js"></script>
+    <style>
+        #submitButton {
+            text-align: center !important;
+        }
+    </style>
+    <meta charset="utf-8">
+    <title>Registration</title>
+</head>
+<body>
+    <div class="container">
+        <h3>Register</h3>
+        <form data-toggle="validator" role="form" class="well form-horizontal" action="/api/parent " method="post" id="regForm">
+            <fieldset>
+                <!--First Name1-->
+                <div class="form-group">
+                    <label for="inputName" class="col-md-3 control-label">Parent 1 First Name</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" id="inputFirstName1" name="parent1Name" placeholder="John" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
 
-<style>
-    hr {
-        display: block;
-        margin-top: 0.5em;
-        margin-bottom: 0.5em;
-        margin-left: auto;
-        margin-right: auto;
-        border-style: inset;
-        border-width: 1px;
-    }
-</style>
+                <!--Last Name1-->
+                <div class="form-group">
+                    <label for="inputLastName" class="col-md-3 control-label">Parent 1 Last Name </label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" id="inputLastName1" name="parent1LastName" placeholder="Smith" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
 
-<form id="ParentEntry" method="post" action="/api/parent">
-    <div class="row">
-        <div class="col-xs-3">
-            Parent 1 First Name <br />
-            <input type="text" name="parent1Name" size="20" class="form-control">
-        </div>
+                <!--Email1-->
+                <div class="form-group">
+                    <label for="inputEmail" class="col-md-3 control-label">Parent 1 Email</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input type="email" class="form-control" id="inputEmail1" name="email1" placeholder="Email" data-error="Please enter a valid email address" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
 
-        <div class="col-xs-3">
-            Parent 1 Last Name <br />
-            <input type="text" name="parent1LastName"  size="20"  class="form-control">
-        </div>
+                <!--Phone #1-->
+                <div class="form-group">
+                    <label for="inputPhone" class="control-label col-md-3">Parent 1 Phone Number</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                            <input type="tel" class="form-control" id="inputPhone1" name="mobile1" placeholder="6178331878" data-minlength="10" data-maxlength="10" data-error="Please enter a valid phone number" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
 
+                <!--First Name2-->
+                <div class="form-group">
+                    <label for="inputName" class="col-md-3 control-label">Parent 2 First Name</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" id="inputFirstName2" name="parent2Name" placeholder="John" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--Last Name2-->
+                <div class="form-group">
+                    <label for="inputLastName" class="col-md-3 control-label">Parent 2 Last Name </label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input type="text" class="form-control" id="inputLastName2" name="parent2LastName" placeholder="Smith" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--Email2-->
+                <div class="form-group">
+                    <label for="inputEmail" class="col-md-3 control-label">Parent 2 Email</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            <input type="email" class="form-control" id="inputEmail2" name="email2" placeholder="Email" data-error="Please enter a valid email address" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--Phone #2-->
+                <div class="form-group">
+                    <label for="inputPhone" class="control-label col-md-3">Parent 1 Phone Number</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                            <input type="tel" class="form-control" id="inputPhone2" name="mobile2" placeholder="6178331878" data-minlength="10" data-maxlength="10" data-error="Please enter a valid phone number" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--Address-->
+                <div class="form-group">
+                    <label for="inputAddress" class="control-label col-md-3">Address</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                            <input type="text" class="form-control" id="inputAddress" name="address" placeholder="Address" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--City-->
+                <div class="form-group">
+                    <label for="inputCity" class="control-label col-md-3">City</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                            <input type="text" class="form-control" id="inputCity" name="city" placeholder="City" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--State-->
+                <div class="form-group">
+                    <label class="control-label col-md-3">State</label>
+                    <div class="input col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+                            <select name="stateID" id="selectState" class="form-control selectpicker" required>
+                               
+                            </select>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--Phone # Home-->
+                <div class="form-group">
+                    <label for="inputPhone" class="control-label col-md-3">Home Phone Number</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                            <input type="tel" class="form-control" id="homePhone" name="homePhone" placeholder="6178331878" data-minlength="10" data-maxlength="10" data-error="Please enter a valid phone number" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <!--Zipcode-->
+                <div class="form-group">
+                    <label for="inputZipcode" class="control-label col-md-3">Zipcode</label>
+                    <div class="inputGroupContainer col-md-4">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                            <input type="number" data-minlength="5" data-maxlength="5" class="form-control" name="zip" id="inputZipcode" placeholder="Zipcode" data-error="Please enter your 5 digit Zipcode" required>
+                        </div>
+                    </div>
+                    <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group" id="submitButton">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </fieldset>
+        </form>
     </div>
-    <br>
-    
-    <div class="row">
-        
-        <div class="col-xs-3">
-            Parent 1 Email Address <br />
-            <input type="text" name="email1" size="30" class="form-control">
-        </div>
-    </div>
-    <br>
-    
-    <div class="row">
-        <div class="col-xs-3">
-            Parent 1 Mobile <br />
-            <input type="text" name="mobile1" size="15" class="form-control">
-        </div>
-    </div>
-    <br>
-    
-    <hr/>
-    <div class="row">
-        <div class="col-xs-3">
-            Parent 2 First Name <br />
-            <input type="text" name="parent2Name" size="20" class="form-control">
-        </div>
 
-        <div class="col-xs-3">
-            Parent 2 Last Name <br />
-            <input type="text" name="parent2LastName" size="20" class="form-control">
-        </div>
+</body>
+</html>
 
-    </div>
-    <br>
-    
-    <div class="row">
-
-        <div class="col-xs-3">
-            Parent 2 Email Address <br />
-            <input type="text" name="email2" size="30" class="form-control">
-        </div>
-    </div>
-    <br>
-    
-    <div class="row">
-
-        <div class="col-xs-3">
-            Parent 2 Mobile <br />
-            <input id="mobile2" type="tel" name="mobile2" size="15"  pattern ="\d{3}[\-]\d{3}[\-]\d{4}" class="form-control">
-        </div>
-    </div>
-    <br>
-    
-    <hr />
-
-    <div class="row">
-        <div class="col-xs-3">
-            Address <br />
-            <input type="text" name="address" class="form-control">
-        </div>
-    </div>
-    <br>
-
-    <div class="row">
-        <div class="col-xs-3">
-            City <br />
-            <input type="text" name="city" class="form-control">
-        </div>
-        
-    </div>
-    <br>
-
-    <div class="row">
-        <div class="col-xs-3">
-            Select State <br />
-            <select id="selectState" class="dropdown form-control input-xs required" name="stateID"></select>
-        </div>
-    </div>
-    <br />
-    
-
-
-        <div class="row">
-            <div class="col-xs-3">
-                Zip <br />
-                <input type="text" name="zip" class="form-control">
-            </div>
-        </div>
-        <br>
-
-    <div class="row">
-        <div class="col-xs-3">
-            Home Phone <br />
-            <input type="text" name="homePhone" class="form-control">
-        </div>
-    </div>
-    <br />
-
-    <div class="row">
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
-    </div>
-    <br/>
-
-    
-
-</form>
 @section scripts
 {
-
     <script>
-
-
         $(document).ready(function () {
             //var userId = document.cookie;
-
-
-            $("#ParentEntry").submit(function (event) {
-                event.preventDefault();
-                var dat = $("#ParentEntry").serializeArray();
-                console.log(dat);
-                var actionURL = event.currentTarget.action;
-
-                $.ajax({
-                    url: actionURL,
-                    type: "post",
-                    data: dat
-                });
-                bootbox.confirm("Congratulations! Family has been registered! Do you want to register a student?",
-                    function(result) {
-                        if (result) {
-                            window.location = '@Url.Action("EnterStudent","Student")';
-                        }
-                    });
-            });
 
             var select = $("#selectState");
             $.ajax({
@@ -178,9 +208,30 @@
                         });
                 }
             });
+            //Post
+            $("#regForm").submit(function (event) {
+                event.preventDefault();
+                var dat = $("#regForm")
+                console.log(dat);
+                var actionURL = event.currentTarget.action;
 
- 
+                $.ajax({
+                    url: actionURL,
+                    type: "post",
+                    data: dat.serialize(),
+                    success: function (data) {
+                        console.log("Submission successful");
+                        console.log(data);
+                    },
+                    error: function (data) {
+                        console.log("Error has occured");
+                        console.log(data);
+                    },
+                });
+                // console.alert("Student has been registered");
+            });
+
+
         });
-
     </script>
-}
+}   

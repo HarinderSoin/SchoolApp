@@ -5,6 +5,7 @@ using System.Web.Http;
 using System.Web.Http.OData.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SchoolApp.Exceptions;
 
 namespace SchoolApp
 {
@@ -20,6 +21,8 @@ namespace SchoolApp
             settings.Formatting = Formatting.Indented;
 
             config.MapHttpAttributeRoutes();
+
+            config.Filters.Add(new CustomExceptionFilter());
 
 
             config.Routes.MapHttpRoute(

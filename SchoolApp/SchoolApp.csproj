@@ -48,6 +48,10 @@
       <HintPath>..\packages\AutoMapper.6.0.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -276,6 +280,10 @@
     <Compile Include="DTO\SubjectDTO.cs" />
     <Compile Include="DTO\TeacherAssignmentDTO.cs" />
     <Compile Include="DTO\TeacherDTO.cs" />
+    <Compile Include="Exceptions\AcademicYearExceptions.cs" />
+    <Compile Include="Exceptions\CustomExceptionFilter.cs" />
+    <Compile Include="Exceptions\GeneralExceptions.cs" />
+    <Compile Include="Exceptions\ParentExceptions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -403,6 +411,10 @@
     <Compile Include="Migrations\201706051534425_FixStudentAssessment.Designer.cs">
       <DependentUpon>201706051534425_FixStudentAssessment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201707261831569_changeParent.cs" />
+    <Compile Include="Migrations\201707261831569_changeParent.Designer.cs">
+      <DependentUpon>201707261831569_changeParent.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AcademicYear.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -434,6 +446,7 @@
     <Compile Include="ResultSets\TeacherAssignmentRS.cs" />
     <Compile Include="ResultSets\TeacherSubjectGradeRS.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Generic\CheckIenumerableNull.cs" />
     <Compile Include="ViewModel\ClassAllocationVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1079,6 +1092,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706051534425_FixStudentAssessment.resx">
       <DependentUpon>201706051534425_FixStudentAssessment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707261831569_changeParent.resx">
+      <DependentUpon>201707261831569_changeParent.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

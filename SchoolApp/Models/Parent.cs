@@ -19,11 +19,9 @@ namespace SchoolApp.Models
         [StringLength(50)]
         public string Parent1LastName { get; set; }
 
-        [Required]
-        [StringLength(50)]
+       [StringLength(50)]
         public string Parent2Name { get; set; }
 
-        [Required]
         [StringLength(50)]
         public string Parent2LastName { get; set; }
 

@@ -1,97 +1,273 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Data.Entity;
-using System.EnterpriseServices;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Net.Http;
+using System.Reflection;
 using System.Web.Http;
 using AutoMapper;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using SchoolApp.DTO;
+using SchoolApp.Exceptions;
 using SchoolApp.Models;
+using SchoolApp.Generic;
 
 namespace SchoolApp.Controllers.API
 {
     public class ParentController : ApiController
     {
         private ApplicationDbContext _context;
+        GeneralExceptions generalExceptions = new GeneralExceptions();
+        ParentExceptions parentExceptions = new ParentExceptions();
+        string parentController = MethodBase.GetCurrentMethod().DeclaringType.Name;
 
+
+
+        readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         public ParentController()
         {
             _context = new ApplicationDbContext();
-
+            string parentController = GetType().Name;
         }
 
-        [HttpPost]
+        protected override void Dispose(bool disposing)
+        {
+            this._context.Dispose();
+        }
+
+        [System.Web.Http.HttpPost]
+
         public IHttpActionResult CreateParent(ParentDTO parentDto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest();
-
-            UserManager<ApplicationUser> userManager;
-            var userId = User.Identity.GetUserId();
-            parentDto.UserId =   User.Identity.GetUserId();
-           
-            var parent = Mapper.Map<ParentDTO, Parent>(parentDto);
-
-            _context.Parents.Add(parent);
-            _context.SaveChanges();
-            parentDto.ID = parent.ID;
-            return Created(new Uri(Request.RequestUri + "/" + parentDto.ID), parentDto);
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetParents()
-        {
-            var parentDto = _context.Parents
-                .Include(p => p.State)
-                .ToList()
-                .Select(Mapper.Map<Parent, ParentDTO>);
-            return Ok(parentDto);
-        }
-
-        [HttpGet]
-        public IHttpActionResult GetParent(int id)
-        {
-            var parent = _context.Parents.SingleOrDefault(c => c.ID == id);
-            if (parent == null)
-                return NotFound();
-            return Ok(Mapper.Map<Parent, ParentDTO>(parent));
-        }
-
-        [HttpDelete]
-        public IHttpActionResult DeleteParent(int id)
-        {
+            string methodName = new StackFrame(0).GetMethod().Name;
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
+            logger.Error("BadRequest: Invalid Model State");
 
-            var parentInDB = _context.Parents.SingleOrDefault(c => c.ID == id);
+            var userId = User.Identity.GetUserId();
+            parentDto.UserId = User.Identity.GetUserId();
 
-            if (parentInDB == null)
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+            //For Testing
+            //var userId = "50dca3c2-6b22-4787-ba2b-091f58358253";
+            //parentDto.UserId = userId;
 
-            _context.Parents.Remove(parentInDB);
-            _context.SaveChanges();
+            if (userId == null)
+            {
+                var user = parentDto.Parent1Name + " " + parentDto.Parent1LastName;
 
-            return Ok();
+                generalExceptions.UserNotFoundError(user, parentController, methodName);
+            }
+
+            try
+            {
+                var parent = Mapper.Map<ParentDTO, Parent>(parentDto);
+                
+                _context.Parents.Add(parent);
+                _context.SaveChanges();
+                parentDto.ID = parent.ID;
+
+            }
+            catch (SqlException ex)
+            {
+                string str;
+                str = "Source:" + ex.Source;
+                str += "\n" + "Number:" + ex.Number.ToString();
+                str += "\n" + "Message:" + ex.Message;
+                str += "\n" + "Class:" + ex.Class.ToString();
+                str += "\n" + "Procedure:" + ex.Procedure.ToString();
+                str += "\n" + "Line Number:" + ex.LineNumber.ToString();
+                str += "\n" + "Server:" + ex.Server.ToString();
+
+               parentExceptions.ParentCatch(str, ex, parentController, methodName);
+            }
+
+            catch (Exception e)
+            {
+                var msg = parentDto.Parent1Name + " " + parentDto.Parent1LastName;
+                parentExceptions.ParentCatch(msg, e, parentController, methodName);
+            }
+            finally
+            {
+                this._context.Dispose();
+                
+            }
+
+            return Created(new Uri(Request.RequestUri + "/" + parentDto.ID), parentDto);
+        }
+    
+
+        [System.Web.Http.HttpGet]
+        public IHttpActionResult GetParents()
+        {
+            var userId = User.Identity.GetUserId();
+            string methodName = new StackFrame(0).GetMethod().Name;
+
+            try
+            {
+                var parentDto = _context.Parents
+                    .Include(p => p.State)
+                    .ToList()
+                    .Select(Mapper.Map<Parent, ParentDTO>);
+                return Ok(parentDto);
+            }
+            catch (SqlException ex)
+            {
+                string str;
+                str = "Source:" + ex.Source;
+                str += "\n" + "Number:" + ex.Number.ToString();
+                str += "\n" + "Message:" + ex.Message;
+                str += "\n" + "Class:" + ex.Class.ToString();
+                str += "\n" + "Procedure:" + ex.Procedure.ToString();
+                str += "\n" + "Line Number:" + ex.LineNumber.ToString();
+                str += "\n" + "Server:" + ex.Server.ToString();
+
+                parentExceptions.ParentCatch(str, ex, parentController, methodName);
+            }
+
+            catch (Exception e)
+            {
+                var msg = "Error getting data from DB";
+                parentExceptions.ParentCatch(msg, e, parentController, methodName);
+            }
+            finally
+            {
+                this._context.Dispose();
+
+            }
+            return BadRequest();
         }
 
-        [HttpPut]
+        [System.Web.Http.HttpGet]
+        public IHttpActionResult GetParent(int id)
+        {
+            string methodName = new StackFrame(0).GetMethod().Name;
+            try
+            {
+                var parent = _context.Parents.SingleOrDefault(c => c.ID == id);
+
+                if (parent == null)
+                    return NotFound();
+                return Ok(Mapper.Map<Parent, ParentDTO>(parent));
+            }
+            catch (SqlException ex)
+            {
+                string str;
+                str = "Source:" + ex.Source;
+                str += "\n" + "Number:" + ex.Number.ToString();
+                str += "\n" + "Message:" + ex.Message;
+                str += "\n" + "Class:" + ex.Class.ToString();
+                str += "\n" + "Procedure:" + ex.Procedure.ToString();
+                str += "\n" + "Line Number:" + ex.LineNumber.ToString();
+                str += "\n" + "Server:" + ex.Server.ToString();
+
+                parentExceptions.ParentCatch(str, ex, parentController, methodName);
+            }
+
+            catch (Exception e)
+            {
+                var msg = "Error getting data from DB";
+                parentExceptions.ParentCatch(msg, e, parentController, methodName);
+            }
+            finally
+            {
+                this._context.Dispose();
+
+            }
+            return BadRequest();
+        }
+
+        [System.Web.Http.HttpDelete]
+        public IHttpActionResult DeleteParent(int id)
+        {
+            string methodName = new StackFrame(0).GetMethod().Name;
+            if (!ModelState.IsValid)
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                logger.Error("BadRequest: Invalid Model State");
+            try
+            {
+                var parentInDB = _context.Parents.SingleOrDefault(c => c.ID == id);
+
+                if (parentInDB == null)
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+
+                _context.Parents.Remove(parentInDB);
+                _context.SaveChanges();
+
+                return Ok();
+            }
+            catch (SqlException ex)
+            {
+                string str;
+                str = "Source:" + ex.Source;
+                str += "\n" + "Number:" + ex.Number.ToString();
+                str += "\n" + "Message:" + ex.Message;
+                str += "\n" + "Class:" + ex.Class.ToString();
+                str += "\n" + "Procedure:" + ex.Procedure.ToString();
+                str += "\n" + "Line Number:" + ex.LineNumber.ToString();
+                str += "\n" + "Server:" + ex.Server.ToString();
+
+                parentExceptions.ParentCatch(str, ex, parentController, methodName);
+            }
+
+            catch (Exception e)
+            {
+                var msg = "Error getting data from DB";
+                parentExceptions.ParentCatch(msg, e, parentController, methodName);
+            }
+            finally
+            {
+                this._context.Dispose();
+
+            }
+            return BadRequest();
+        }
+
+        [System.Web.Http.HttpPut]
         public IHttpActionResult UpdateParent(int id, ParentDTO parentDto)
         {
+            string methodName = new StackFrame(0).GetMethod().Name;
 
-            var parentInDB = _context.Parents.SingleOrDefault(c => c.ID == id);
+            try
+            {
+                var parentInDB = _context.Parents.SingleOrDefault(c => c.ID == id);
 
-            if (parentInDB == null)
-                NotFound();
+                if (parentInDB == null)
+                    NotFound();
 
-            Mapper.Map(parentDto, parentInDB);
-            _context.SaveChanges();
+                Mapper.Map(parentDto, parentInDB);
+                _context.SaveChanges();
 
-            return Ok(parentDto);
+                return Ok(parentDto);
+            }
+            catch (SqlException ex)
+            {
+                string str;
+                str = "Source:" + ex.Source;
+                str += "\n" + "Number:" + ex.Number.ToString();
+                str += "\n" + "Message:" + ex.Message;
+                str += "\n" + "Class:" + ex.Class.ToString();
+                str += "\n" + "Procedure:" + ex.Procedure.ToString();
+                str += "\n" + "Line Number:" + ex.LineNumber.ToString();
+                str += "\n" + "Server:" + ex.Server.ToString();
+
+                parentExceptions.ParentCatch(str, ex, parentController, methodName);
+            }
+
+            catch (Exception e)
+            {
+                var msg = "Error getting data from DB";
+                parentExceptions.ParentCatch(msg, e, parentController, methodName);
+            }
+            finally
+            {
+                this._context.Dispose();
+
+            }
+            return BadRequest();
         }
+
     }
 }
