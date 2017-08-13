@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Net.Http;
@@ -61,15 +62,15 @@ namespace SchoolApp.Controllers.API
                 generalExceptions.UserNotFoundError(user, parentController, methodName);
             }
 
-            try
-            {
+            //try
+            //{
                 var parent = Mapper.Map<ParentDTO, Parent>(parentDto);
-                
+
                 _context.Parents.Add(parent);
                 _context.SaveChanges();
                 parentDto.ID = parent.ID;
 
-            }
+            /*}
             catch (SqlException ex)
             {
                 string str;
@@ -81,7 +82,19 @@ namespace SchoolApp.Controllers.API
                 str += "\n" + "Line Number:" + ex.LineNumber.ToString();
                 str += "\n" + "Server:" + ex.Server.ToString();
 
-               parentExceptions.ParentCatch(str, ex, parentController, methodName);
+                parentExceptions.ParentCatch(str, ex, parentController, methodName);
+            }
+
+            catch (DbEntityValidationException e)
+            {
+                
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    Console.WriteLine("- Property: \"{0}\", Value: \"{1}\", Error: \"{2}\"", eve.PropertyName, eve.Entry.CurrentValues.GetValue<object>(eve.PropertyName), eve.ErrorMessage);
+                }
+                var msg = "db" +parentDto.Parent1Name + " " + parentDto.Parent1LastName;
+                parentExceptions.ParentCatch(msg, e, parentController, methodName);
             }
 
             catch (Exception e)
@@ -93,7 +106,7 @@ namespace SchoolApp.Controllers.API
             {
                 this._context.Dispose();
                 
-            }
+            }*/
 
             return Created(new Uri(Request.RequestUri + "/" + parentDto.ID), parentDto);
         }
